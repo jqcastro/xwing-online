@@ -1,0 +1,12 @@
+@import '../../styles';
+
+:host {
+  display: block;
+  margin: 0 auto;
+  width: 30%;
+  text-align: center;
+  ul, li {
+    list-style: none;
+    padding: $spacer * 0.5;
+  }
+}

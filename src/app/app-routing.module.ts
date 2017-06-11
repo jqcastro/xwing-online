@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { BoardComponent } from 'app/board/board.component';
+import { MenuComponent } from 'app/menu/menu.component';
 
 const routes: Routes = [
   {
     path: '',
-    children: []
+    component: MenuComponent
+  },
+  {
+    path: 'board',
+    component: BoardComponent
   }
 ];
 
