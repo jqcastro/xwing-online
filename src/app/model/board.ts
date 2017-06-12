@@ -3,9 +3,9 @@ export class Board {
   height: number;
   background: string;
 
-  constructor() {
-    this.width = 900;
-    this.height = 900;
-    this.background = '#ccc';
+  constructor(width: number = 900, height: number = 900, background: string = '#ccc') {
+    this.width = width;
+    this.height = height;
+    this.background = background;
   }
 }
