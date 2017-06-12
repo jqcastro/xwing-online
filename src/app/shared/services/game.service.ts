@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Game } from 'app/model/game';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class GameService {
 
-  game: Subject<Game> = new Subject<Game>();
+  game: BehaviorSubject<Game> = new BehaviorSubject<Game>(new Game());
 
   constructor() { }
 
