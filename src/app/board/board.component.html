@@ -1,1 +1,6 @@
-
+<div class="board"
+     [style.width]="board.width | toUnit:Unit.Pixel"
+     [style.height]="board.height | toUnit:Unit.Pixel">
+  <img class="background"
+       [src]="board.background" />
+</div>

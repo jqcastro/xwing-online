@@ -8,10 +8,7 @@ export class Game {
       public board: Board = new Board(),
       private players: Player[] = [],
     ) {
-      this.players = [
-        new Player('Player 1', new Squadron(Faction.RebelAlliance)),
-        new Player('Player 2', new Squadron(Faction.GalacticEmpire))
-      ];
-      this.board = new Board(900, 900, '#ceefff');
+      this.board = board;
+      this.players = players;
     }
 }

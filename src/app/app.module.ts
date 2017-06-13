@@ -7,13 +7,14 @@ import { MenuComponent } from './menu/menu.component';
 import { BoardComponent } from './board/board.component';
 import { GameService } from 'app/shared/services/game.service';
 import { NavigationService } from 'app/shared/services/navigation.service';
-import { ToPixelsPipe } from './shared/pipes/to-pixels.pipe';
+import { ToUnitPipe } from './shared/pipes/to-unit.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
-    BoardComponent
+    BoardComponent,
+    ToUnitPipe
   ],
   imports: [
     BrowserModule,
@@ -21,8 +22,7 @@ import { ToPixelsPipe } from './shared/pipes/to-pixels.pipe';
   ],
   providers: [
     GameService,
-    NavigationService,
-    ToPixelsPipe
+    NavigationService
   ],
   bootstrap: [AppComponent]
 })
