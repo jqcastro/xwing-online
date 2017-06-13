@@ -31,7 +31,7 @@ export class GameService {
           'Player 2',
           new Squadron(
             Faction.GalacticEmpire, [
-              new Ship(Faction.RebelAlliance, Size.Regular)
+              new Ship(Faction.GalacticEmpire, Size.Regular)
             ])
         )
       ]

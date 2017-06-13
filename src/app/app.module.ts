@@ -8,13 +8,17 @@ import { BoardComponent } from './board/board.component';
 import { GameService } from 'app/shared/services/game.service';
 import { NavigationService } from 'app/shared/services/navigation.service';
 import { ToUnitPipe } from './shared/pipes/to-unit.pipe';
+import { RelativeSizePipe } from './shared/pipes/relative-size.pipe';
+import { ShipComponent } from './ship/ship.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenuComponent,
     BoardComponent,
-    ToUnitPipe
+    ToUnitPipe,
+    RelativeSizePipe,
+    ShipComponent
   ],
   imports: [
     BrowserModule,

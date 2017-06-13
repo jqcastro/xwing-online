@@ -6,9 +6,6 @@ import { Faction } from 'app/model/faction.enum';
 export class Game {
     constructor(
       public board: Board = new Board(),
-      private players: Player[] = [],
-    ) {
-      this.board = board;
-      this.players = players;
-    }
+      public players: Player[] = [],
+    ) { }
 }
