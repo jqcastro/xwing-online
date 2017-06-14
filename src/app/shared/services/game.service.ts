@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Game } from 'app/model/game';
 import { Observable } from 'rxjs/Observable';
+import { Game } from 'app/model/game';
 import { Board } from 'app/model/board';
 import { Player } from 'app/model/player';
 import { Squadron } from 'app/model/squadron';
@@ -11,13 +11,9 @@ import { Size } from 'app/model/size.enum';
 
 @Injectable()
 export class GameService {
-
-  game: BehaviorSubject<Game> = new BehaviorSubject<Game>(new Game());
-
-  constructor() { }
-
-  public newGame() {
-    const game = new Game(
+  private games = [
+    new Game(
+      1,
       new Board(900, 900, '/assets/images/star-killer.jpg'),
       [
         new Player(
@@ -35,11 +31,20 @@ export class GameService {
             ])
         )
       ]
-    );
+    ),
+  ];
+
+  game: BehaviorSubject<Game> = new BehaviorSubject<Game>(this.games[0]);
+
+  constructor() { }
+
+  public newGame(): Observable<Game> {
+    const game = this.games[0];
     this.game.next(game);
+    return this.getGame(game.id);
   }
 
-  public getGame(): Observable<Game> {
+  public getGame(gameId: number): Observable<Game> {
     return this.game.asObservable();
   }
 }

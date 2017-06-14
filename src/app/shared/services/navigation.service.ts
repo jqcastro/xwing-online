@@ -8,8 +8,8 @@ export class NavigationService {
 
   constructor(private router: Router) { }
 
-  public goToBoard() {
-    this.router.navigate(['board'], this.navigatinExtras);
+  public goToGame(gameId: number) {
+    this.router.navigate([`game/${gameId}`], this.navigatinExtras);
   }
 
 }

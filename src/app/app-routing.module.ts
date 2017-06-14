@@ -9,7 +9,7 @@ const routes: Routes = [
     component: MenuComponent
   },
   {
-    path: 'board',
+    path: 'game/:gameId',
     component: BoardComponent
   }
 ];

@@ -5,6 +5,7 @@ import { Faction } from 'app/model/faction.enum';
 
 export class Game {
     constructor(
+      public id: number,
       public board: Board = new Board(),
       public players: Player[] = [],
     ) { }
