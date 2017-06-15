@@ -1,0 +1,6 @@
+<table>
+  <tr *ngFor="let speed of getSpeeds(ship.dial)">
+    <td>{{speed}}</td>
+    <td *ngFor="let maneuver of getManeuversBySpeed(speed, ship.dial)"></td>
+  </tr>
+</table>

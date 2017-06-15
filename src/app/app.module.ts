@@ -10,6 +10,7 @@ import { NavigationService } from 'app/shared/services/navigation.service';
 import { ToUnitPipe } from './shared/pipes/to-unit.pipe';
 import { RelativeSizePipe } from './shared/pipes/relative-size.pipe';
 import { ShipComponent } from './ship/ship.component';
+import { DialComponent } from './dial/dial.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ShipComponent } from './ship/ship.component';
     BoardComponent,
     ToUnitPipe,
     RelativeSizePipe,
-    ShipComponent
+    ShipComponent,
+    DialComponent
   ],
   imports: [
     BrowserModule,
