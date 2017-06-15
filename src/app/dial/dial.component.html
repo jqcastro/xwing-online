@@ -1,6 +1,11 @@
 <table>
   <tr *ngFor="let speed of getSpeeds(ship.dial)">
     <td>{{speed}}</td>
-    <td *ngFor="let maneuver of getManeuversBySpeed(speed, ship.dial)"></td>
+    <td *ngFor="let maneuver of getManeuversBySpeed(speed, ship.dial)">
+      <button type="button"
+              class="btn"
+              [ngClass]="{'btn-danger': maneuver.difficulty === Difficulty.Red, 'btn-success': maneuver.difficulty === Difficulty.Green}"
+              (click)="selectManeuver(maneuver)">{{maneuver.bearing}}</button>
+    </td>
   </tr>
 </table>

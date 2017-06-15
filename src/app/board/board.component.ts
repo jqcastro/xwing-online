@@ -4,7 +4,8 @@ import { Board } from 'app/model/board';
 import { Player } from 'app/model/player';
 import { BaseComponent } from 'app/shared/base.component';
 import { ActivatedRoute } from '@angular/router';
-import { Ship } from "app/model/ship";
+import { Ship } from 'app/model/ship';
+import { Maneuver } from "app/model/maneuver";
 
 @Component({
   selector: 'xwo-board',
@@ -14,6 +15,7 @@ import { Ship } from "app/model/ship";
 export class BoardComponent extends BaseComponent implements OnDestroy {
   protected board: Board = new Board();
   protected players: Player[] = [];
+  protected selectedShip: Ship;
 
   constructor(
     private gameService: GameService,
@@ -43,9 +45,10 @@ export class BoardComponent extends BaseComponent implements OnDestroy {
   }
 
   selectShip(ship: Ship) {
-    const message = ship.dial
-      .map(maneuver => `${maneuver.speed}. ${maneuver.bearing} : ${maneuver.difficulty}`)
-      .join('\r\n');
-    alert(message);
+    this.selectedShip = ship;
+  }
+
+  selectManeuver(maneuver: Maneuver) {
+    alert(maneuver.bearing + ' ' + maneuver.difficulty);
   }
 }

@@ -18,3 +18,7 @@
               (click)="selectShip(ship)"></xwo-ship>
   </ng-container>
 </div>
+
+<xwo-dial *ngIf="selectedShip"
+          [ship]="selectedShip"
+          (onSelectManeuver)="selectManeuver($event)"></xwo-dial>
