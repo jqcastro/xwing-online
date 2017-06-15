@@ -16,7 +16,8 @@ const SubFaction = {
 type SubFaction = (typeof SubFaction)[keyof typeof SubFaction];
 export { SubFaction };
 
-export const Factions: {[faction: number]: SubFaction[]} = {
+type FactionIndex = { [faction in Faction]?: SubFaction[] };
+export const Factions: FactionIndex = {
   [Faction.GalacticEmpire]: [SubFaction.GalacticEmpire, SubFaction.FirstOrder],
   [Faction.RebelAlliance]: [SubFaction.RebelAlliance, SubFaction.Resistance],
   [Faction.ScumAndVillainy]: [SubFaction.ScumAndVillainy]

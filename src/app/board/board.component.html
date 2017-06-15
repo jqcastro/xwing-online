@@ -4,7 +4,7 @@
   <img class="background"
        [src]="board.background" />
   <ng-container *ngFor="let player of players; index as i; odd as odd; even as even">
-    <xwo-ship *ngFor="let ship of player.squadron.ships; index as j"
+    <xwo-ship *ngFor="let ship of player.squad.ships; index as j"
               class="ship"
               [ngClass]="ship.faction"
               [ship]="ship"
@@ -13,6 +13,8 @@
               [style.top]="(odd ? board.height - Sizes[ship.size] : 0) | toUnit:Unit.Pixel"
               [style.width]="Sizes[ship.size] | relativeSize:board.width | toUnit:Unit.Percentage"
               [style.height]="Sizes[ship.size] | relativeSize:board.height | toUnit:Unit.Percentage"
-              [style.transform]="'rotate(' + (even ? '180' : '0') + 'deg)'"></xwo-ship>
+              [style.transform]="'rotate(' + (even ? '180' : '0') + 'deg)'"
+              [title]="ship.pilot.name + ' | ' + ship.type"
+              (click)="selectShip(ship)"></xwo-ship>
   </ng-container>
 </div>

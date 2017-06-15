@@ -1,9 +1,9 @@
 import { Faction } from 'app/model/faction.enum';
-import { Squadron } from 'app/model/squadron';
+import { Squad } from 'app/model/squad';
 
 export class Player {
   constructor(
     public name: string,
-    public squadron: Squadron
+    public squad: Squad
   ) { }
 }

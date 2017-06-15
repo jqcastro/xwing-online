@@ -5,7 +5,8 @@ const Size = {
 type Size = (typeof Size)[keyof typeof Size];
 export { Size };
 
-export const Sizes: {[key: number]: number} = {
+type SizeIndex = { [size in Size]?: number };
+export const Sizes: SizeIndex = {
   [Size.Regular]: 40,
   [Size.Large]: 80
 };

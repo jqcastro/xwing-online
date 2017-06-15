@@ -4,6 +4,7 @@ import { Board } from 'app/model/board';
 import { Player } from 'app/model/player';
 import { BaseComponent } from 'app/shared/base.component';
 import { ActivatedRoute } from '@angular/router';
+import { Ship } from "app/model/ship";
 
 @Component({
   selector: 'xwo-board',
@@ -39,5 +40,12 @@ export class BoardComponent extends BaseComponent implements OnDestroy {
 
   ngOnDestroy() {
     super.ngOnDestroy();
+  }
+
+  selectShip(ship: Ship) {
+    const message = ship.dial
+      .map(maneuver => `${maneuver.speed}. ${maneuver.bearing} : ${maneuver.difficulty}`)
+      .join('\r\n');
+    alert(message);
   }
 }

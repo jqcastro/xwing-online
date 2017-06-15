@@ -1,6 +1,6 @@
 import { Player } from 'app/model/player';
 import { Board } from 'app/model/board';
-import { Squadron } from 'app/model/squadron';
+import { Squad } from 'app/model/squad';
 import { Faction } from 'app/model/faction.enum';
 
 export class Game {
