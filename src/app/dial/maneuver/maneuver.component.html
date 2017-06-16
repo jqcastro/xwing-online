@@ -1,0 +1,8 @@
+<button *ngIf="maneuver" type="button"
+        class="btn"
+        [ngClass]="{
+          'btn-danger': maneuver.difficulty === Difficulty.Red,
+          'btn-success': maneuver.difficulty === Difficulty.Green,
+          'btn-secondary': maneuver.difficulty === Difficulty.White
+        }"
+        (click)="selectManeuver(maneuver)">{{maneuver.bearing}}</button>

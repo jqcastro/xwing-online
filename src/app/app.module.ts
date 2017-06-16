@@ -11,6 +11,7 @@ import { ToUnitPipe } from './shared/pipes/to-unit.pipe';
 import { RelativeSizePipe } from './shared/pipes/relative-size.pipe';
 import { ShipComponent } from './ship/ship.component';
 import { DialComponent } from './dial/dial.component';
+import { ManeuverComponent } from './dial/maneuver/maneuver.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DialComponent } from './dial/dial.component';
     ToUnitPipe,
     RelativeSizePipe,
     ShipComponent,
-    DialComponent
+    DialComponent,
+    ManeuverComponent
   ],
   imports: [
     BrowserModule,
