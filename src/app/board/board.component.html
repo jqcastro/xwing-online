@@ -1,4 +1,4 @@
-<div class="board"
+<!--<div class="board"
      [style.width]="board.width | toUnit:Unit.Pixel"
      [style.height]="board.height | toUnit:Unit.Pixel">
   <img class="background"
@@ -21,4 +21,5 @@
 
 <xwo-dial *ngIf="selectedShip"
           [ship]="selectedShip"
-          (onSelectManeuver)="selectManeuver($event)"></xwo-dial>
+          (onSelectManeuver)="selectManeuver($event)"></xwo-dial>-->
+<canvas #board></canvas>

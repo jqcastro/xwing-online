@@ -12,6 +12,7 @@ import { RelativeSizePipe } from './shared/pipes/relative-size.pipe';
 import { ShipComponent } from './ship/ship.component';
 import { DialComponent } from './dial/dial.component';
 import { ManeuverComponent } from './dial/maneuver/maneuver.component';
+import { RenderService } from 'app/shared/services/render.service';
 
 @NgModule({
   declarations: [
@@ -29,8 +30,9 @@ import { ManeuverComponent } from './dial/maneuver/maneuver.component';
     AppRoutingModule
   ],
   providers: [
+    NavigationService,
     GameService,
-    NavigationService
+    RenderService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,11 @@
+@import '../../mixins';
+
 :host {
-  width: 100%;
-  height: 100%;
-  display: block;
+  @include full-screen();
+
+  canvas {
+    @include full-screen();
+  }
 
   .board {
     display: block;
