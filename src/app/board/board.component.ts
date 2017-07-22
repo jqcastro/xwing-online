@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Ship } from 'app/model/ship';
 import { Maneuver } from 'app/model/maneuver';
 import { RenderService } from "app/shared/services/render.service";
+import { Game } from "app/model/game";
 
 @Component({
   selector: 'xwo-board',
@@ -14,6 +15,7 @@ import { RenderService } from "app/shared/services/render.service";
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent extends BaseComponent implements OnDestroy, AfterViewInit {
+  private game: Game;
   protected board: Board = new Board();
   protected players: Player[] = [];
   protected selectedShip: Ship;
@@ -37,6 +39,7 @@ export class BoardComponent extends BaseComponent implements OnDestroy, AfterVie
               .subscribe(game => {
 
                 // load data from retrieved game
+                this.game = game;
                 this.board = game.board;
                 this.players = game.players;
             })
@@ -47,7 +50,7 @@ export class BoardComponent extends BaseComponent implements OnDestroy, AfterVie
 
   ngAfterViewInit() {
     this.canvas = this.boardRef.nativeElement;
-    this.renderService.renderBoard(this.canvas);
+    this.renderService.render(this.canvas, this.game);
   }
 
   ngOnDestroy() {
