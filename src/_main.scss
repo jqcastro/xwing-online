@@ -1,4 +1,5 @@
 html,
 body {
   @include full-screen();
+  overflow: hidden;
 }

@@ -5,6 +5,7 @@
 
   canvas {
     @include full-screen();
+    touch-action: none;
   }
 
   .board {
