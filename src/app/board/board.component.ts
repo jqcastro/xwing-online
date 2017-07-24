@@ -6,8 +6,8 @@ import { BaseComponent } from 'app/shared/base.component';
 import { ActivatedRoute } from '@angular/router';
 import { Ship } from 'app/model/ship';
 import { Maneuver } from 'app/model/maneuver';
-import { RenderService } from "app/shared/services/render.service";
-import { Game } from "app/model/game";
+import { RenderService } from 'app/shared/services/render.service';
+import { Game } from 'app/model/game';
 
 @Component({
   selector: 'xwo-board',
@@ -57,11 +57,11 @@ export class BoardComponent extends BaseComponent implements OnDestroy, AfterVie
     super.ngOnDestroy();
   }
 
-  selectShip(ship: Ship) {
-    this.selectedShip = ship;
-  }
+  // selectShip(ship: Ship) {
+  //   this.selectedShip = ship;
+  // }
 
-  selectManeuver(maneuver: Maneuver) {
-    alert(maneuver.bearing + ' ' + maneuver.difficulty);
-  }
+  // selectManeuver(maneuver: Maneuver) {
+  //   alert(maneuver.bearing + ' ' + maneuver.difficulty);
+  // }
 }
