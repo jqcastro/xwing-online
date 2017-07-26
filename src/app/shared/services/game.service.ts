@@ -5,13 +5,13 @@ import { Game } from 'app/model/game';
 import { Board } from 'app/model/board';
 import { Player } from 'app/model/player';
 import { Squad } from 'app/model/squad';
-import { Faction, SubFaction } from 'app/model/faction.enum';
+import { Faction } from 'app/model/faction.enum';
 import { Ship } from 'app/model/ship';
 import { Size } from 'app/model/size.enum';
 import { Bearing } from 'app/model/bearing.enum';
 import { Maneuver } from 'app/model/maneuver';
 import { Difficulty } from 'app/model/difficulty.enum';
-import { Pilot } from "app/model/pilot";
+import { Pilot } from 'app/model/pilot';
 
 @Injectable()
 export class GameService {
@@ -79,8 +79,7 @@ export class GameService {
                 'x-wing',
                 Faction.RebelAlliance,
                 this.dials['x-wing'],
-                this.pilots['rookie-pilot'],
-                SubFaction.RebelAlliance)
+                this.pilots['rookie-pilot'])
             ])
         ),
         new Player(
@@ -91,8 +90,7 @@ export class GameService {
                 'tie-fighter',
                 Faction.GalacticEmpire,
                 this.dials['tie-fighter'],
-                this.pilots['academy-pilot'],
-                SubFaction.GalacticEmpire)
+                this.pilots['academy-pilot'])
             ])
         )
       ]

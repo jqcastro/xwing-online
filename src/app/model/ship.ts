@@ -1,4 +1,4 @@
-import { Faction, SubFaction, Factions } from 'app/model/faction.enum';
+import { Faction } from 'app/model/faction.enum';
 import { Size } from 'app/model/size.enum';
 import { Speed, Maneuver } from 'app/model/maneuver';
 import { Bearing } from 'app/model/bearing.enum';
@@ -10,8 +10,10 @@ export class Ship {
     public faction: Faction,
     public dial: Maneuver[],
     public pilot: Pilot,
-    public subfaction: SubFaction,
-    public size: Size = Size.Regular,
-    public facing: number = 0,
+    public size: Size = Size.Regular
   ) { }
+
+  public get id () {
+    return this.pilot.id;
+  }
 }
