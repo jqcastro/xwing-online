@@ -12,9 +12,13 @@ export class BaseComponent implements OnDestroy {
 
   constructor() { }
 
-  ngOnDestroy() {
+  unsubscribe() {
     if (this.subscriptions.length) {
       this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe();
   }
 }

@@ -9,6 +9,6 @@ export class Pilot {
   ) { }
 
   public get id() {
-    return kebabCase(this.name + this.unique ? '' : this.token);
+    return kebabCase(this.name + (this.unique ? '' : this.token));
   }
 }

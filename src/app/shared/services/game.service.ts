@@ -12,6 +12,7 @@ import { Bearing } from 'app/model/bearing.enum';
 import { Maneuver } from 'app/model/maneuver';
 import { Difficulty } from 'app/model/difficulty.enum';
 import { Pilot } from 'app/model/pilot';
+import { NotFoundError } from 'app/errors/not-found.error';
 
 @Injectable()
 export class GameService {
@@ -97,17 +98,33 @@ export class GameService {
     ),
   ];
 
-  game: BehaviorSubject<Game> = new BehaviorSubject<Game>(this.games[0]);
+  private game: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
+  private selectedShip: BehaviorSubject<Ship> = new BehaviorSubject<Ship>(null);  
 
   constructor() { }
+
+  public get onSelectedShip(): Observable<Ship> {
+    return this.selectedShip.asObservable();
+  }
 
   public newGame(): Observable<Game> {
     const game = this.games[0];
     this.game.next(game);
-    return this.getGame(game.id);
+    return this.game.asObservable();
   }
 
-  public getGame(gameId: number): Observable<Game> {
+  public loadGame(gameId: number): Observable<Game> {
+    const game = this.games.find(g => g.id === gameId);
+    if (game) {
+      this.game.next(game);
+    } else {
+      this.game.error(new NotFoundError('Game not found'));
+    }
+    
     return this.game.asObservable();
+  }
+
+  public setSelectedShip(ship: Ship) {
+    this.selectedShip.next(ship);
   }
 }

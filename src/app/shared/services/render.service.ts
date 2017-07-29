@@ -11,8 +11,12 @@ import {
   StandardMaterial,
   Texture,
   Vector4,
-  Color3
+  Color3,
+  PickingInfo,
+  HighlightLayer,
+  Mesh
 } from 'babylonjs';
+import { GameService } from 'app/shared/services/game.service';
 import { Game } from 'app/model/game';
 import { Ship } from 'app/model/ship';
 import { Sizes } from 'app/model/size.enum';
@@ -30,8 +34,11 @@ export class RenderService {
     '_ny.png',
     '_nz.png'
   ];
+  private selectedMesh: Mesh;
 
-  constructor() { }
+  constructor(
+    private gameService: GameService
+  ) { }
 
   public render(canvas: HTMLCanvasElement, game: Game) {
     // Load the BABYLON 3D engine
@@ -44,7 +51,7 @@ export class RenderService {
     engine.runRenderLoop(() => scene.render());
 
     // attach handlers
-    this.attachHandlers(engine);
+    this.attachHandlers(engine, scene, game);
   }
 
   private createScene(
@@ -53,25 +60,28 @@ export class RenderService {
     game: Game
     ): Scene {
 
-    // Now create a basic Babylon Scene object
+    // create a basic Babylon Scene object
     const scene = new Scene(engine);
-    // Change the scene background color to green.
+    // change the scene background color to green.
     scene.clearColor = new Color4(0, 0, 0, 1);
-    // This creates and positions a free camera
+    // this creates and positions a free camera
     const camera = new FreeCamera('camera', new Vector3(0, 5, -10), scene);
-    // This targets the camera to scene origin
+    // this targets the camera to scene origin
     camera.setTarget(Vector3.Zero());
-    // This set the camera speed
+    // this set the camera speed
     camera.speed = 0.1;
-    // This attaches the camera to the canvas
+    // this attaches the camera to the canvas
     camera.attachControl(canvas, false);
 
     // skybox
     const envTexture = new CubeTexture('/assets/images/skybox/skybox', scene, this.SKYBOX_EXTENSIONS);
     scene.createDefaultSkybox(envTexture, true);
 
-    // This creates a light, aiming 0,1,0 - to the sky.
+    // this creates a light, aiming 0,1,0 - to the sky.
     const light = new HemisphericLight('environmentLight', new Vector3(0, 1, 0), scene);
+
+    // this is the higlight layer used to highlight selected meshes
+    const highLightLayer = new HighlightLayer("highLight", scene, { camera: camera });
 
     // board
     const board = MeshBuilder.CreateGround('board', {
@@ -89,7 +99,6 @@ export class RenderService {
       )
     );
 
-    // Leave this function
     return scene;
   }
 
@@ -120,8 +129,36 @@ export class RenderService {
     shipMesh.position.y = options.height * 0.51;
   }
 
-  private attachHandlers(engine: Engine) {
-    // Watch for browser/canvas resize events
+  private attachHandlers(engine: Engine, scene: Scene, game: Game) {
+    // watch for browser/canvas resize events
     window.addEventListener('resize', () => engine.resize());
+
+    //when pointer down event is raised
+    scene.onPointerPick = (evt: PointerEvent, pickInfo: PickingInfo) => {
+      // if the click hits the ground object, we change the impact position
+      if (pickInfo.hit) {
+        const pickedMesh = scene.getMeshByName(pickInfo.pickedMesh.name) as Mesh;
+      
+        const selectedShip = game.players.map(p => p.squad.ships)
+          .reduce((p, c) => p.concat(c))
+          .find(s => s.id === pickedMesh.name);
+        
+        const highLightLayer = scene.highlightLayers[0];
+        // remove previous highlight
+        if (this.selectedMesh) {
+          highLightLayer.removeMesh(this.selectedMesh);
+          this.selectedMesh = null;
+        }
+        
+        // highlight selected mesh
+        if (selectedShip) {
+          this.selectedMesh = pickedMesh;
+          highLightLayer.addMesh(pickedMesh, FactionColors[selectedShip.faction]);
+
+          // comunicate selected ship to game service
+          this.gameService.setSelectedShip(selectedShip);
+        }
+      }
+    };
   }
 }

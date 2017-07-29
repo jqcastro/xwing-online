@@ -4,12 +4,15 @@ import { Router, NavigationExtras } from '@angular/router';
 @Injectable()
 export class NavigationService {
 
-  private navigatinExtras = <NavigationExtras>{queryParamsHandling: 'preserve', preserveFragment: true};
+  private navigationExtras = <NavigationExtras>{queryParamsHandling: 'preserve', preserveFragment: true};
 
   constructor(private router: Router) { }
 
   public goToGame(gameId: number) {
-    this.router.navigate([`game/${gameId}`], this.navigatinExtras);
+    this.router.navigate(['game', gameId], this.navigationExtras);
   }
 
+  public goToNotFound() {
+    this.router.navigate(['404'], this.navigationExtras);
+  }
 }
