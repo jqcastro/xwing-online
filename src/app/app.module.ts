@@ -15,6 +15,7 @@ import { ManeuverComponent } from './dial/maneuver/maneuver.component';
 import { RenderService } from 'app/shared/services/render.service';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { XwoErrorHandler } from 'app/errors/xwo-error-handler';
+import { ClickOutsideModule } from 'ng-click-outside';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { XwoErrorHandler } from 'app/errors/xwo-error-handler';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ClickOutsideModule
   ],
   providers: [
     GameService,

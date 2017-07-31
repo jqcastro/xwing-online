@@ -17,9 +17,9 @@ import { DataParams } from 'app/app-routing.params';
 })
 export class BoardComponent extends BaseComponent implements OnDestroy, AfterViewInit {
   private game: Game;
-  protected board: Board = new Board();
-  protected players: Player[] = [];
-  protected selectedShip: Ship;
+  board: Board = new Board();
+  players: Player[] = [];
+  selectedShip: Ship;
 
   @ViewChild('board') boardRef: ElementRef;
   private canvas: HTMLCanvasElement;
@@ -30,7 +30,7 @@ export class BoardComponent extends BaseComponent implements OnDestroy, AfterVie
     private renderService: RenderService
   ) {
     super();
-    
+
     this.activatedRoute.data
       .subscribe((data: DataParams) => {
 
@@ -46,9 +46,7 @@ export class BoardComponent extends BaseComponent implements OnDestroy, AfterVie
         this.subscriptions.push(
           this.gameService.onSelectedShip
             .subscribe(ship => {
-              if (ship) {
-                console.log(ship.id);
-              }
+              this.selectedShip = ship;
           })
         );
       });
@@ -65,11 +63,11 @@ export class BoardComponent extends BaseComponent implements OnDestroy, AfterVie
     super.unsubscribe();
   }
 
-  // selectShip(ship: Ship) {
-  //   this.selectedShip = ship;
-  // }
-
-  // selectManeuver(maneuver: Maneuver) {
-  //   alert(maneuver.bearing + ' ' + maneuver.difficulty);
-  // }
+  selectManeuver(maneuver: Maneuver) {
+    if (maneuver) {
+      alert(maneuver.bearing + ' ' + maneuver.difficulty);
+    }
+    // close dial
+    this.gameService.setSelectedShip(null);
+  }
 }

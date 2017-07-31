@@ -6,6 +6,13 @@
   canvas {
     @include full-screen();
     touch-action: none;
+    z-index: 0;
+  }
+
+  .dial {
+    @include center-screen();
+    background: white;
+    z-index: 1;
   }
 
   .board {
@@ -17,16 +24,13 @@
     overflow: hidden;
 
     img.background {
+      @include center-screen();
       min-height: 100%;
       min-width: 100%;
       width: auto;
       height: auto;
       margin: 0;
       padding: 0;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
     }
   }
 }

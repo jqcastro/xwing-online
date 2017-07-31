@@ -5,10 +5,10 @@ import { Sizes } from 'app/model/size.enum';
 import { Difficulty } from 'app/model/difficulty.enum';
 
 export class BaseComponent implements OnDestroy {
-  protected Unit: typeof Unit = Unit;
-  protected Sizes: typeof Sizes = Sizes;
-  protected Difficulty: typeof Difficulty = Difficulty;
-  protected subscriptions: Subscription[] = [];
+  Unit: typeof Unit = Unit;
+  Sizes: typeof Sizes = Sizes;
+  Difficulty: typeof Difficulty = Difficulty;
+  subscriptions: Subscription[] = [];
 
   constructor() { }
 

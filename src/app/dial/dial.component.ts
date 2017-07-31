@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, AfterViewInit } from '@angular/core';
 import { Ship } from 'app/model/ship';
 import { Maneuver, Speed } from 'app/model/maneuver';
 import { BaseComponent } from 'app/shared/base.component';
@@ -13,7 +13,7 @@ class DialMap {
   templateUrl: './dial.component.html',
   styleUrls: ['./dial.component.scss']
 })
-export class DialComponent extends BaseComponent {
+export class DialComponent extends BaseComponent implements AfterViewInit {
   @Input() ship: Ship;
   @Output() onSelectManeuver: EventEmitter<Maneuver> = new EventEmitter<Maneuver>();
 
@@ -32,11 +32,19 @@ export class DialComponent extends BaseComponent {
     Bearing.Reverse
   ];
 
+  @HostListener('clickOutside') onClickOutside;
+
   constructor() {
     super();
   }
 
-  protected getSpeeds(dial: Maneuver[]): Speed[] {
+  ngAfterViewInit(): void {
+    if (!this.onClickOutside) {
+      this.onClickOutside = () => this.closeDial();
+    }
+  }
+
+  getSpeeds(dial: Maneuver[]): Speed[] {
     const result: Speed[] = [];
     dial.forEach(m => {
       if (result.indexOf(m.speed) < 0) {
@@ -46,7 +54,7 @@ export class DialComponent extends BaseComponent {
     return result.sort((a, b) => b - a);
   }
 
-  protected getBearings(dial: Maneuver[]): Bearing[] {
+  getBearings(dial: Maneuver[]): Bearing[] {
     const result: Bearing[] = [];
     this.orderedBearing.forEach(bearing => {
       if (dial.find(m => m.bearing === bearing)) {
@@ -56,11 +64,15 @@ export class DialComponent extends BaseComponent {
     return result;
   }
 
-  protected getManeuver(dial: Maneuver[], speed: Speed, bearing: Bearing): Maneuver {
+  getManeuver(dial: Maneuver[], speed: Speed, bearing: Bearing): Maneuver {
     return dial.find(m => m.speed === speed && m.bearing === bearing);
   }
 
-  protected selectManeuver(maneuver: Maneuver) {
+  selectManeuver(maneuver: Maneuver) {
     this.onSelectManeuver.emit(maneuver);
+  }
+
+  private closeDial() {
+    this.onSelectManeuver.emit(null);
   }
 }

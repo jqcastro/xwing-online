@@ -21,7 +21,7 @@ import { Game } from 'app/model/game';
 import { Ship } from 'app/model/ship';
 import { Sizes } from 'app/model/size.enum';
 import { Utils } from 'app/shared/utils/utils';
-import { FactionColors } from "app/model/faction.enum";
+import { FactionColors } from 'app/model/faction.enum';
 
 @Injectable()
 export class RenderService {
@@ -34,6 +34,8 @@ export class RenderService {
     '_ny.png',
     '_nz.png'
   ];
+
+  private scene: Scene;
   private selectedMesh: Mesh;
 
   constructor(
@@ -45,13 +47,13 @@ export class RenderService {
     const engine = new Engine(canvas, true);
 
     // Now, call the createScene function that you just finished creating
-    const scene = this.createScene(engine, canvas, game);
+    this.scene = this.createScene(engine, canvas, game);
 
     // Register a render loop to repeatedly render the scene
-    engine.runRenderLoop(() => scene.render());
+    engine.runRenderLoop(() => this.scene.render());
 
     // attach handlers
-    this.attachHandlers(engine, scene, game);
+    this.attachHandlers(engine, this.scene, game);
   }
 
   private createScene(
@@ -81,7 +83,7 @@ export class RenderService {
     const light = new HemisphericLight('environmentLight', new Vector3(0, 1, 0), scene);
 
     // this is the higlight layer used to highlight selected meshes
-    const highLightLayer = new HighlightLayer("highLight", scene, { camera: camera });
+    const highLightLayer = new HighlightLayer('highLight', scene, { camera: camera });
 
     // board
     const board = MeshBuilder.CreateGround('board', {
@@ -133,32 +135,37 @@ export class RenderService {
     // watch for browser/canvas resize events
     window.addEventListener('resize', () => engine.resize());
 
-    //when pointer down event is raised
+    // when pointer down event is raised
     scene.onPointerPick = (evt: PointerEvent, pickInfo: PickingInfo) => {
       // if the click hits the ground object, we change the impact position
       if (pickInfo.hit) {
         const pickedMesh = scene.getMeshByName(pickInfo.pickedMesh.name) as Mesh;
-      
+
         const selectedShip = game.players.map(p => p.squad.ships)
           .reduce((p, c) => p.concat(c))
           .find(s => s.id === pickedMesh.name);
-        
-        const highLightLayer = scene.highlightLayers[0];
-        // remove previous highlight
-        if (this.selectedMesh) {
-          highLightLayer.removeMesh(this.selectedMesh);
-          this.selectedMesh = null;
-        }
-        
-        // highlight selected mesh
-        if (selectedShip) {
-          this.selectedMesh = pickedMesh;
-          highLightLayer.addMesh(pickedMesh, FactionColors[selectedShip.faction]);
 
-          // comunicate selected ship to game service
-          this.gameService.setSelectedShip(selectedShip);
-        }
+        // comunicate selected ship to game service
+        this.gameService.setSelectedShip(selectedShip);
       }
     };
+
+    // highlight the selected ship
+    this.gameService.onSelectedShip.subscribe(selectedShip => {
+      const highLightLayer = scene.highlightLayers[0];
+
+      // remove previous highlight
+      if (this.selectedMesh) {
+        highLightLayer.removeMesh(this.selectedMesh);
+        this.selectedMesh = null;
+      }
+
+      // highlight selected mesh
+      if (selectedShip) {
+        const selectedShipMesh = scene.getMeshByName(selectedShip.id) as Mesh;
+        this.selectedMesh = selectedShipMesh;
+        highLightLayer.addMesh(selectedShipMesh, FactionColors[selectedShip.faction]);
+      }
+    });
   }
 }

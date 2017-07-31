@@ -99,7 +99,7 @@ export class GameService {
   ];
 
   private game: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
-  private selectedShip: BehaviorSubject<Ship> = new BehaviorSubject<Ship>(null);  
+  private selectedShip: BehaviorSubject<Ship> = new BehaviorSubject<Ship>(null);
 
   constructor() { }
 
@@ -120,7 +120,6 @@ export class GameService {
     } else {
       this.game.error(new NotFoundError('Game not found'));
     }
-    
     return this.game.asObservable();
   }
 

@@ -17,9 +17,11 @@
               [title]="ship.pilot.name + ' | ' + ship.type"
               (click)="selectShip(ship)"></xwo-ship>
   </ng-container>
-</div>
-
-<xwo-dial *ngIf="selectedShip"
-          [ship]="selectedShip"
-          (onSelectManeuver)="selectManeuver($event)"></xwo-dial>-->
+</div>-->
 <canvas #board></canvas>
+
+<xwo-dial #dial
+          *ngIf="selectedShip"
+          class="dial"
+          [ship]="selectedShip"
+          (onSelectManeuver)="selectManeuver($event)"></xwo-dial>
