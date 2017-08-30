@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { BoardComponent } from './board/board.component';
 import { GameService } from 'app/shared/services/game.service';
+import { AnimationService } from 'app/shared/services/animation.service';
 import { NavigationService } from 'app/shared/services/navigation.service';
 import { ToUnitPipe } from './shared/pipes/to-unit.pipe';
 import { RelativeSizePipe } from './shared/pipes/relative-size.pipe';
@@ -36,6 +37,7 @@ import { ClickOutsideModule } from 'ng-click-outside';
   ],
   providers: [
     GameService,
+    AnimationService,
     RenderService,
     NavigationService,
     {

@@ -22,6 +22,8 @@ import { Ship } from 'app/model/ship';
 import { Sizes } from 'app/model/size.enum';
 import { Utils } from 'app/shared/utils/utils';
 import { FactionColors } from 'app/model/faction.enum';
+import { AnimationService } from 'app/shared/services/animation.service';
+import { Maneuver } from 'app/model/maneuver';
 
 @Injectable()
 export class RenderService {
@@ -39,7 +41,8 @@ export class RenderService {
   private selectedMesh: Mesh;
 
   constructor(
-    private gameService: GameService
+    private gameService: GameService,
+    private animationService: AnimationService
   ) { }
 
   public render(canvas: HTMLCanvasElement, game: Game) {
@@ -165,6 +168,16 @@ export class RenderService {
         const selectedShipMesh = scene.getMeshByName(selectedShip.id) as Mesh;
         this.selectedMesh = selectedShipMesh;
         highLightLayer.addMesh(selectedShipMesh, FactionColors[selectedShip.faction]);
+      }
+    });
+
+    // perform the selected maneuver
+    this.gameService.onSelectedManeuver.subscribe(maneuver => {
+      if (!maneuver) { return; }
+
+      let animation = this.selectedMesh.animations.find(a => a.name === maneuver.id);
+      if (!animation) {
+        animation = this.animationService.getManeuverAnimation(maneuver);
       }
     });
   }

@@ -65,7 +65,7 @@ export class BoardComponent extends BaseComponent implements OnDestroy, AfterVie
 
   selectManeuver(maneuver: Maneuver) {
     if (maneuver) {
-      alert(maneuver.bearing + ' ' + maneuver.difficulty);
+      this.gameService.setSelectedManeuver(maneuver);
     }
     // close dial
     this.gameService.setSelectedShip(null);

@@ -100,11 +100,16 @@ export class GameService {
 
   private game: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
   private selectedShip: BehaviorSubject<Ship> = new BehaviorSubject<Ship>(null);
+  private selectedManeuver: BehaviorSubject<Maneuver> = new BehaviorSubject<Maneuver>(null);
 
   constructor() { }
 
   public get onSelectedShip(): Observable<Ship> {
     return this.selectedShip.asObservable();
+  }
+
+  public get onSelectedManeuver(): Observable<Maneuver> {
+    return this.selectedManeuver.asObservable();
   }
 
   public newGame(): Observable<Game> {
@@ -125,5 +130,9 @@ export class GameService {
 
   public setSelectedShip(ship: Ship) {
     this.selectedShip.next(ship);
+  }
+
+  public setSelectedManeuver(maneuver: Maneuver) {
+    this.selectedManeuver.next(maneuver);
   }
 }
