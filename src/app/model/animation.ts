@@ -15,35 +15,74 @@ export abstract class Animation {
   }
 
   constructor(
+    public mesh: Mesh,
     public step: number = 1
   ) {}
 
-  public abstract animate();
+  public abstract animate(canCollideWith: Mesh[]);
+  public abstract undo();
+
+  protected finishAnimation() {
+    this.animationFinished.next(this);
+    this.animationFinished.complete();
+  }
+
+  protected checkCollision(canCollideWith: Mesh[] = []): boolean {
+    let hasCollision = false;
+
+    // update mesh position before checking collisions
+    this.mesh.computeWorldMatrix(true);
+
+    // check for collisions
+    canCollideWith.some(m => {
+      if (this.mesh.name !== m.name && // exclude animation self mesh
+          this.mesh.intersectsMesh(m, true)) { // check collision
+        hasCollision = true;
+      }
+      return hasCollision;
+    });
+    return hasCollision;
+  }
 }
 
 export class StraightAnimation extends Animation {
   target: number;
   current: number = 0;
+  distance: number = 0;
 
   constructor(
     public mesh: Mesh,
     public ship: Ship,
     public speed: Speed
   ) {
-    super();
+    super(mesh);
     this.target = (Sizes.regular * this.speed) + Sizes[this.ship.size];
   }
 
-  animate() {
-    const vector = new Vector3(0, 0, 1);
+  animate(canCollideWith: Mesh[] = []) {
+    if (this.animationFinished.isStopped) { return; }
     if (this.current < this.target) {
-      const distance = this.getDistance();
-      this.mesh.translate(vector, Utils.scale(distance), Space.LOCAL);
-      this.current += distance;
+
+      this.distance = this.getDistance();
+      const vector = new Vector3(0, 0, 1);
+      this.mesh.translate(vector, Utils.scale(this.distance), Space.LOCAL);
+      this.current += this.distance;
+
+      // if collision is detected undo the animation
+      if (this.checkCollision(canCollideWith)) {
+        this.undo(); // undo last animation step in order to avoid collision
+        this.finishAnimation();
+      }
+
     } else {
-      this.animationFinished.next(this);
-      this.animationFinished.complete();
+      this.finishAnimation();
     }
+  }
+
+  undo() {
+    const vector = new Vector3(0, 0, 1);
+    this.mesh.translate(vector, Utils.scale(-this.distance), Space.LOCAL);
+    this.current -= this.distance;
   }
 
   private getDistance(): number {

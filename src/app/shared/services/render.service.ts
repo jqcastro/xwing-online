@@ -41,6 +41,7 @@ export class RenderService {
   private scene: Scene;
   private selectedMesh: Mesh;
   private animations: Animation[] = [];
+  private shipMeshes: Mesh[] = [];
 
   constructor(
     private gameService: GameService,
@@ -142,11 +143,16 @@ export class RenderService {
     if ((playerIndex % 2) > 0) {
       shipMesh.rotate(new Vector3(0, 1, 0), Math.PI, Space.LOCAL);
     }
+
+    // store ship meshes for further processing
+    this.shipMeshes.push(shipMesh);
   }
 
   private onBeforeRender(scene: Scene): void {
     if (this.animations.length) {
-      this.animations.forEach(animation => animation.animate());
+      this.animations.forEach(animation => {
+        animation.animate(this.shipMeshes);
+      });
     }
   }
 
