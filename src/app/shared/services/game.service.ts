@@ -14,6 +14,10 @@ import { Difficulty } from 'app/model/difficulty.enum';
 import { Pilot } from 'app/model/pilot';
 import { NotFoundError } from 'app/errors/not-found.error';
 
+export class ManeuverArgs {
+  constructor(public maneuver: Maneuver, public ship: Ship) {}
+}
+
 @Injectable()
 export class GameService {
 
@@ -100,7 +104,7 @@ export class GameService {
 
   private game: BehaviorSubject<Game> = new BehaviorSubject<Game>(null);
   private selectedShip: BehaviorSubject<Ship> = new BehaviorSubject<Ship>(null);
-  private selectedManeuver: BehaviorSubject<Maneuver> = new BehaviorSubject<Maneuver>(null);
+  private selectedManeuver: BehaviorSubject<ManeuverArgs> = new BehaviorSubject<ManeuverArgs>(null);
 
   constructor() { }
 
@@ -108,7 +112,7 @@ export class GameService {
     return this.selectedShip.asObservable();
   }
 
-  public get onSelectedManeuver(): Observable<Maneuver> {
+  public get onSelectedManeuver(): Observable<ManeuverArgs> {
     return this.selectedManeuver.asObservable();
   }
 
@@ -133,6 +137,6 @@ export class GameService {
   }
 
   public setSelectedManeuver(maneuver: Maneuver) {
-    this.selectedManeuver.next(maneuver);
+    this.selectedManeuver.next(new ManeuverArgs(maneuver, this.selectedShip.value));
   }
 }
