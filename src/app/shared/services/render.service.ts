@@ -25,7 +25,7 @@ import { Utils } from 'app/shared/utils/utils';
 import { FactionColors } from 'app/model/faction.enum';
 import { AnimationService } from 'app/shared/services/animation.service';
 import { Maneuver } from 'app/model/maneuver';
-import { Animation } from 'app/model/animation';
+import { Animation } from 'app/model/animations/animation';
 
 @Injectable()
 export class RenderService {
