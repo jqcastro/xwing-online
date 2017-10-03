@@ -14,3 +14,17 @@ const Bearing = {
 }
 type Bearing = (typeof Bearing)[keyof typeof Bearing];
 export { Bearing };
+
+export const rightBearings: Bearing[] = [
+  Bearing.BankRight,
+  Bearing.TurnRight,
+  Bearing.SegnorsLoopRight,
+  Bearing.TallonRollRight
+];
+
+export const leftBearings: Bearing[] = [
+  Bearing.BankLeft,
+  Bearing.TurnLeft,
+  Bearing.SegnorsLoopLeft,
+  Bearing.TallonRollLeft
+];

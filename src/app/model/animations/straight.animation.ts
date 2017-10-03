@@ -1,4 +1,4 @@
-import { Vector3, Mesh, Space } from 'babylonjs';
+import { Vector3, Mesh, Space, Axis } from 'babylonjs';
 import { Speed } from 'app/model/maneuver';
 import { Sizes } from 'app/model/size.enum';
 import { Ship } from 'app/model/ship';
@@ -26,8 +26,7 @@ export class StraightAnimation extends Animation {
     if (this.current < this.target) {
 
       this.distance = this.getDistance();
-      const vector = new Vector3(0, 0, 1);
-      this.mesh.translate(vector, Utils.scale(this.distance), Space.LOCAL);
+      this.mesh.translate(Axis.Z, Utils.scale(this.distance), Space.LOCAL);
       this.current += this.distance;
 
       // if collision is detected undo the animation
@@ -42,8 +41,7 @@ export class StraightAnimation extends Animation {
   }
 
   undo() {
-    const vector = new Vector3(0, 0, 1);
-    this.mesh.translate(vector, Utils.scale(-this.distance), Space.LOCAL);
+    this.mesh.translate(Axis.Z, Utils.scale(-this.distance), Space.LOCAL);
     this.current -= this.distance;
   }
 

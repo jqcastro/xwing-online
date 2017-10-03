@@ -1,4 +1,4 @@
-import { Vector3, Mesh, Space, Axis } from 'babylonjs';
+import { Vector3, Mesh, Space, Axis, Angle } from 'babylonjs';
 import { Maneuver } from 'app/model/maneuver';
 import { Sizes } from 'app/model/size.enum';
 import { Ship } from 'app/model/ship';
@@ -6,7 +6,7 @@ import { Utils } from 'app/shared/utils/utils';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Animation } from 'app/model/animations/animation';
-import { Bearing } from 'app/model/bearing.enum';
+import { Bearing, rightBearings } from 'app/model/bearing.enum';
 
 export class TurnAnimation extends Animation {
   private radiusMap: { [speed: number]: number } = {
@@ -19,7 +19,7 @@ export class TurnAnimation extends Animation {
   private currentAngle: number = 0;
   private radius: number = this.radiusMap[1];
   private angle: number = 0;
-  private center: Vector3;
+  private direction: number = 1;
 
   constructor(
     public mesh: Mesh,
@@ -28,6 +28,7 @@ export class TurnAnimation extends Animation {
   ) {
     super(mesh);
     this.radius = Utils.scale(this.radiusMap[maneuver.speed] + (Sizes[this.ship.size] / 2));
+    this.direction = rightBearings.includes(this.maneuver.bearing) ? 1 : -1;
   }
 
   // cx,cy origin, r radius, a angle
@@ -44,22 +45,17 @@ export class TurnAnimation extends Animation {
       const x = this.radius * Math.cos(this.angle);
       const z = this.radius * Math.sin(this.angle);
 
-      const xVector = new Vector3(0, 0, 1);
-      this.mesh.translate(xVector, Utils.scale(x), Space.LOCAL);
+      this.mesh.translate(Axis.Z, Utils.scale(x), Space.LOCAL);
+      this.mesh.translate(Axis.Z, Utils.scale(z), Space.LOCAL);
+      this.mesh.rotate(Axis.Y, Angle.FromDegrees(this.angle).radians() * this.direction, Space.LOCAL);
 
-      const zVector = new Vector3(0, 0, 1);
-      this.mesh.translate(zVector, Utils.scale(z), Space.LOCAL);
-
-      this.mesh.rotate(Axis.Y, this.angle * Math.PI / 180, Space.LOCAL);
       this.currentAngle += this.angle;
 
-      console.log(Utils.scale(x), Utils.scale(z), this.angle, this.currentAngle);
-
       // if collision is detected undo the animation
-      // if (this.checkCollision(canCollideWith)) {
-      //   this.undo(); // undo last animation step in order to avoid collision
-      //   this.finishAnimation();
-      // }
+      if (this.checkCollision(canCollideWith)) {
+        this.undo(); // undo last animation step in order to avoid collision
+        this.finishAnimation();
+      }
 
     } else {
       this.finishAnimation();
@@ -67,17 +63,12 @@ export class TurnAnimation extends Animation {
   }
 
   undo() {
-    // const x = this.radius * Math.cos(this.angle * Math.PI / 180);
-    // const z = this.radius * Math.sin(this.angle * Math.PI / 180);
+    const x = this.radius * Math.cos(this.angle);
+    const z = this.radius * Math.sin(this.angle);
 
-    // const xVector = new Vector3(0, 0, 1);
-    // this.mesh.translate(xVector, Utils.scale(x), Space.LOCAL);
-
-    // const zVector = new Vector3(0, 0, 1);
-    // this.mesh.translate(zVector, Utils.scale(z), Space.LOCAL);
-
-    // this.mesh.rotate(Axis.Y, this.angle * Math.PI / 180, Space.LOCAL);
-    // this.currentAngle += this.angle;
+    this.mesh.translate(Axis.Z, -Utils.scale(x), Space.LOCAL);
+    this.mesh.translate(Axis.Z, -Utils.scale(z), Space.LOCAL);
+    this.mesh.rotate(Axis.Y, -Angle.FromDegrees(this.angle).radians() * this.direction, Space.LOCAL);
   }
 
   private getAngle(): number {
