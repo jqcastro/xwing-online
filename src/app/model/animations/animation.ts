@@ -20,7 +20,7 @@ export abstract class Animation {
   ) {}
 
   public abstract animate(canCollideWith: Mesh[]);
-  public abstract undo();
+  protected abstract undo();
 
   protected finishAnimation() {
     this.animationFinished.next(this);

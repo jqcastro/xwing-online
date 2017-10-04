@@ -9,17 +9,16 @@ import { Animation } from 'app/model/animations/animation';
 import { Bearing, rightBearings } from 'app/model/bearing.enum';
 
 export class TurnAnimation extends Animation {
-  private radiusMap: { [speed: number]: number } = {
+  protected radiusMap: { [speed: number]: number } = {
     [1]: 35,
     [2]: 63,
     [3]: 90
   };
-  private targetAngle: number = 90;
-  private turn: number = 1;
-  private currentAngle: number = 0;
-  private radius: number = this.radiusMap[1];
-  private angle: number = 0;
-  private direction: number = 1;
+  protected targetAngle: number = 90;
+  protected currentAngle: number = 0;
+  protected radius: number = this.radiusMap[1];
+  protected angle: number = 0;
+  protected direction: number = 1;
 
   constructor(
     public mesh: Mesh,
@@ -62,7 +61,7 @@ export class TurnAnimation extends Animation {
     }
   }
 
-  undo() {
+  protected undo() {
     const x = this.radius * Math.cos(this.angle);
     const z = this.radius * Math.sin(this.angle);
 
@@ -71,7 +70,7 @@ export class TurnAnimation extends Animation {
     this.mesh.rotate(Axis.Y, -Angle.FromDegrees(this.angle).radians() * this.direction, Space.LOCAL);
   }
 
-  private getAngle(): number {
+  protected getAngle(): number {
     let result = this.step;
     const next = this.currentAngle + this.step;
     if (next > this.targetAngle) {
